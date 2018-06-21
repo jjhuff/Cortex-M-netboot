@@ -1,0 +1,6 @@
+[submodule "CMSIS"]
+	path = CMSIS
+	url = https://github.com/ARM-software/CMSIS
+[submodule "CMSIS-Atmel"]
+	path = CMSIS-Atmel
+	url = https://github.com/mattairtech/CMSIS-Atmel
