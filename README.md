@@ -1,4 +1,4 @@
-TFTP Network bootloader for ARM Cortex and Wiznet W5500
+TFTP Network bootloader for ARM Cortex-M and Wiznet W5500
 =======================================================
 
 This bootloader allows a Cortex processor to load and flash a firmware image via TFTP.
