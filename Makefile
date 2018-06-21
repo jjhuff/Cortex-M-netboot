@@ -63,21 +63,21 @@ LDFLAGS+=--specs=nano.specs --specs=nosys.specs
 # -----------------------------------------------------------------------------
 # Source files and objects
 SOURCES= \
-				 board_driver_led.c \
-				 board_driver_usb.c \
-				 board_init.c \
-				 board_startup.c \
-				 main.c \
-				 networking.c \
-				 sam_ba_usb.c \
-				 sam_ba_cdc.c \
-				 flash.c \
-				 log.c \
-				 spi.c \
-				 tftp.c \
-				 dhcp.c \
-				 utils.c \
-				 w5x00.c
+				 src/board_driver_led.c \
+				 src/board_driver_usb.c \
+				 src/board_init.c \
+				 src/board_startup.c \
+				 src/main.c \
+				 src/networking.c \
+				 src/sam_ba_usb.c \
+				 src/sam_ba_cdc.c \
+				 src/flash.c \
+				 src/log.c \
+				 src/spi.c \
+				 src/tftp.c \
+				 src/dhcp.c \
+				 src/utils.c \
+				 src/w5x00.c
 
 OBJECTS=$(addprefix $(BUILD_PATH)/, $(SOURCES:.c=.o))
 DEPS=$(addprefix $(BUILD_PATH)/, $(SOURCES:.c=.d))
@@ -101,6 +101,7 @@ $(BUILD_PATH)/%.o: %.c
 
 $(BUILD_PATH):
 	-mkdir $(BUILD_PATH)
+	-mkdir $(BUILD_PATH)/src
 
 clean:
 	-$(RM) -rf $(BUILD_PATH)
