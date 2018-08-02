@@ -21,6 +21,8 @@
 
 #if defined(BOARD_ID_feather_m0)
   #include "board_definitions_feather_m0.h"
+#elif defined(BOARD_ID_hydra)
+  #include "board_definitions_hydra.h"
 #else
   #error You must define a BOARD_ID and add the corresponding definitions in board_definitions.h
 #endif
