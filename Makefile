@@ -64,6 +64,7 @@ LDFLAGS+=--specs=nano.specs --specs=nosys.specs
 # Source files and objects
 SOURCES= \
 				 src/board_driver_led.c \
+				 src/board_driver_i2c.c \
 				 src/board_driver_usb.c \
 				 src/board_init.c \
 				 src/board_startup.c \

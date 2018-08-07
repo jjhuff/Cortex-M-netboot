@@ -90,9 +90,18 @@
 #define SPI_MISO                          PINMUX_PA09C_SERCOM0_PAD1
 #define SPI_MOSI                          PINMUX_PA08C_SERCOM0_PAD0
 #define SPI_SCK                           PINMUX_PA11C_SERCOM0_PAD3
-
 #define SPI_BITRATE                       (4000000UL)     // 4 MHz
 #define SPI_MAX_BITRATE                   (12000000UL)    // 12 MHz max, see 'SPI.h', SPI_MIN_CLOCK_DIVIDER
+
+/*
+ * I2C port
+ */
+#define I2C_SERCOM                        SERCOM3
+#define I2C_GCLK_ID                       GCLK_CLKCTRL_ID_SERCOM3_CORE_Val
+#define I2C_PM_APBCMASK                   PM_APBCMASK_SERCOM3
+#define I2C_SDA                           PINMUX_PA22C_SERCOM3_PAD0
+#define I2C_SCL                           PINMUX_PA23C_SERCOM3_PAD1
+#define I2C_BITRATE                       (100000)        // 100khz
 
 /*
  * Ethernet module/chip definitions
@@ -101,5 +110,9 @@
 // Wiznet Ethernet chip CS pin
 #define W5X00_CS_PORT                     (0U)   // Port A
 #define W5X00_CS_PIN                      (10U)   // PA10
+
+// I2C Address of the MAC address chip
+#define MAC_CHIP_ADDRESS                  0x50
+#define MAC_CHIP_READ_OFFSET              0xFA
 
 #endif // _BOARD_DEFINITIONS_H_

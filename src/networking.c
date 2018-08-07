@@ -33,6 +33,7 @@
 #include "w5x00.h"
 #include "utils.h"
 #include "log.h"
+#include "board_driver_i2c.h"
 
 // Declare the network settings
 netConfig_t netConfig = {
@@ -44,6 +45,25 @@ netConfig_t netConfig = {
   .tftpFile = "firmware.bin",
 };
 
+#ifdef MAC_CHIP_ADDRESS
+static void readMACAddress() {
+  // Read the MAC (6 bytes) from address 0xFA
+  // See page 14 of http://ww1.microchip.com/downloads/en/DeviceDoc/24AA02E48-24AA025E48-24AA02E64-24AA025E64-Data-Sheet-20002124H.pdf
+  LOG_STR("Read MAC address...");
+
+  i2c_beginTransmission(MAC_CHIP_ADDRESS);
+  i2c_write(MAC_CHIP_READ_OFFSET);
+  uint8_t status = i2c_endTransmission(false);
+
+  if (!status) {
+    i2c_read(MAC_CHIP_ADDRESS, 6, netConfig.macAddr, true);
+    LOG("success");
+  } else {
+    LOG("failed");
+  }
+}
+#endif
+
 bool netInit() {
   spiInit(SPI_BITRATE);
 
@@ -51,7 +71,20 @@ bool netInit() {
     spiEnd();
     return false;
   }
+#ifdef MAC_CHIP_ADDRESS
+  readMACAddress();
+#endif
 
+#if DEBUG
+  LOG_STR("MAC Address: ");
+  for (uint8_t i=0;i<6;i++) {
+    if (i>0) {
+      LOG_STR(":");
+    }
+    LOG_HEX_BYTE(netConfig.macAddr[i]);
+  }
+  LOG_STR("\r\n")
+#endif
   // Write MAC address
   w5x00WriteBuffer(REG_SHAR0, GP_W_CB, netConfig.macAddr, 6);
 
