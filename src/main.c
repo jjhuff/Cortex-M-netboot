@@ -24,6 +24,7 @@
 #include <sam.h>
 #include "board_definitions.h"
 #include "board_driver_led.h"
+#include "board_driver_i2c.h"
 #include "networking.h"
 #include "tftp.h"
 #include "utils.h"
@@ -121,6 +122,11 @@ int main(void)
 
   // Init logging & wait for a USB connection (only debug mode)
   logInit();
+
+  // Init I2C
+  #ifdef I2C_SERCOM
+  i2c_init(I2C_BITRATE);
+  #endif
 
   // Init network
   LOG("init start");
