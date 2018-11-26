@@ -35,6 +35,11 @@
 #include "log.h"
 #include "board_driver_i2c.h"
 
+// The preprocessor is annoying
+// https://stackoverflow.com/questions/240353/convert-a-preprocessor-token-to-a-string
+#define STRINGIZE2(s) #s
+#define STRINGIZE(s) STRINGIZE2(s)
+
 // Declare the network settings
 netConfig_t netConfig = {
   .macAddr = {0x00, 0xAA, 0xBB, 0xCC, 0xDE, 0x02},
@@ -42,7 +47,7 @@ netConfig_t netConfig = {
   .netMask = {0},
   .gwAddr = {0},
   .tftpServer = {0},
-  .tftpFile = "firmware.bin",
+  .tftpFile = STRINGIZE(TFTP_DEFAULT),
 };
 
 #ifdef MAC_CHIP_ADDRESS
