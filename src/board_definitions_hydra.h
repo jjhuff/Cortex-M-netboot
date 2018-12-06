@@ -112,7 +112,7 @@
 #define W5X00_CS_PIN                      (10U)   // PA10
 
 // I2C Address of the MAC address chip
-#define MAC_CHIP_ADDRESS                  0x50
+#define MAC_CHIP_ADDRESS                  0x57
 #define MAC_CHIP_READ_OFFSET              0xFA
 
 #endif // _BOARD_DEFINITIONS_H_
