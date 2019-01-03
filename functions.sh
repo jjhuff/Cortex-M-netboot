@@ -6,6 +6,9 @@ function arm() {
   if [ -e /dev/ttyUSB0 ]; then
     DEVICE="--device=/dev/ttyUSB0"
   fi
+  if [[ "$OSTYPE" != "darwin"* ]]; then
+    USB="-v /dev/bus/usb:/dev/bus/usb"
+  fi
   docker run -ti --rm \
     --user $CUR_UID:$CUR_GID \
     --volume=${PWD}:/src/:rw \
@@ -13,7 +16,7 @@ function arm() {
     --group-add=adm \
     ${DEVICE} \
     --privileged \
-    -v /dev/bus/usb:/dev/bus/usb \
+    ${USB} \
     --net=host \
     arm "$@"
 }
