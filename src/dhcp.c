@@ -175,13 +175,9 @@ static void dhcpSendMessage(uint8_t messageType) {
 
 static uint8_t dhcpParsePacket() {
   dhcpPacket packet;
-  uint16_t bufferLen = netReceivePacketSocket3((uint8_t*)&packet, NULL, NULL);
+  uint8_t serverAddr[4];
+  uint16_t bufferLen = netReceivePacketSocket3((uint8_t*)&packet, serverAddr, NULL);
   if (bufferLen == 0) {
-    return 0;
-  }
-
-  if (bufferLen != sizeof(packet)) {
-    LOG("DHCP: invalid packet size");
     return 0;
   }
 
@@ -215,6 +211,9 @@ static uint8_t dhcpParsePacket() {
   if (strlen(packet.file) > 0) {
     COPY_IP(netConfig.tftpServer, packet.siaddr);
     memcpy(netConfig.tftpFile, packet.file, 128);
+  } else {
+    // Otherwise, use the DHCP server itself
+    COPY_IP(netConfig.tftpServer, serverAddr);
   }
 
   uint8_t messageType = 0;
@@ -269,14 +268,6 @@ void dhcpInit() {
 
 void dhcpEnd(void) {
   netCloseSocket3();
-
-  // Did we get a valid tftpServer?
-  if (netConfig.tftpServer[0] == 0) {
-    // No, just set it to the broadcast address
-    for (uint8_t i = 0; i < 4; i++) {
-      netConfig.tftpServer[i] = netConfig.ipAddr[i] | ~netConfig.netMask[i];
-    }
-  }
 }
 
 bool dhcpRun() {
