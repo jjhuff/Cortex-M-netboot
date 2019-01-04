@@ -176,7 +176,7 @@ static void dhcpSendMessage(uint8_t messageType) {
 static uint8_t dhcpParsePacket() {
   dhcpPacket packet;
   uint8_t serverAddr[4];
-  uint16_t bufferLen = netReceivePacketSocket3((uint8_t*)&packet, &serverAddr, NULL);
+  uint16_t bufferLen = netReceivePacketSocket3((uint8_t*)&packet, serverAddr, NULL);
   if (bufferLen == 0) {
     return 0;
   }

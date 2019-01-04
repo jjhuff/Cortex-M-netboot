@@ -151,6 +151,8 @@ int main(void)
   }
   dhcpEnd();
 
+  led_pulse_rate = 2; // 2x second is after DHCP
+
   // Start TFTP
   tftpInit();
   LOG_STR("TFTP: Start ");
@@ -169,6 +171,7 @@ int main(void)
   bootloaderExitTime = millis() + BOOTLOADER_MAX_RUN_TIME;
   while (1) {
     if (tftpRun()) {
+      led_pulse_rate = 4; // 4x second is active TFTP
       bootloaderExitTime = millis() + BOOTLOADER_MAX_RUN_TIME;
     }
 
