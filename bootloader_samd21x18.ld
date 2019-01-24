@@ -27,7 +27,8 @@
  */
 MEMORY
 {
-  FLASH (rx) : ORIGIN = 0x00000000, LENGTH = 0x4000 /* First 16KB used by bootloader */
+  FLASH (rx) : ORIGIN = 0x00000000, LENGTH = 0x4000-0x10 /* First 16KB (minus 16bytes at the end) used by bootloader */
+  FLASH_FOOTER(r): ORIGIN = ORIGIN(FLASH)+LENGTH(FLASH), LENGTH = 0x10  /* Bootloader footer */
   RAM (rwx) : ORIGIN = 0x20000000, LENGTH = 0x00008000-0x0004 /* 4 bytes used by bootloader to keep data between resets */
 }
 
@@ -144,9 +145,16 @@ SECTIONS
 		__zero_table_end__ = .;
 	} > FLASH
 	*/
-
 	__etext = .;
-  PROVIDE(__sketch_vectors_ptr = ORIGIN(FLASH) + LENGTH(FLASH));
+
+  /* bootloader 'footer' section */
+  .bl_footer :
+  {
+		*(.bl_footer*)
+		KEEP(*(.bl_footer))
+  } > FLASH_FOOTER
+
+  PROVIDE(__sketch_vectors_ptr = ORIGIN(FLASH_FOOTER) + LENGTH(FLASH_FOOTER));
 
 
 	.data : AT (__etext)
