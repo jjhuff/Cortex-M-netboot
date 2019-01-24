@@ -37,6 +37,10 @@ static volatile uint8_t led_pulse_rate = 1;
 
 static bool exitBootloaderAfterTimeout = true;
 
+/* Include the version in the flash 'footer' */
+__attribute__ ((section(".bl_footer")))
+const char *version = VERSION;
+
 /**
  * \brief Check the application startup condition
  *
@@ -122,6 +126,10 @@ int main(void)
 
   // Init logging & wait for a USB connection (only debug mode)
   logInit();
+
+  LOG_STR("Version: ");
+  LOG_STR(version);
+  LOG("");
 
   // Init I2C
   #ifdef I2C_SERCOM
